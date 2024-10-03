@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.nkkrisz.coffeetype.Controller">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+   <children>
+      <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+        <items>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label fx:id="testText" text="Test" />
+               </children>
+            </VBox>
+            <VBox>
+               <children>
+                  <TextField text="userInput" />
+                  <Label text="Difficulty" />
+                  <Slider fx:id="difficultySlider" max="3" min="1" value="1" blockIncrement="1" majorTickUnit="1" minorTickCount="0" showTickMarks="true" snapToTicks="true" showTickLabels="true"/>
+                  <Button fx:id="loadTest" mnemonicParsing="false" onAction="#loadTest" text="Load Test" />
+               </children>
+            </VBox>
+        </items>
+      </SplitPane>
+   </children>
+</VBox>
