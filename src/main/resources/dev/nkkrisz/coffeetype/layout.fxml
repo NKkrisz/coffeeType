@@ -9,19 +9,19 @@
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
    <children>
-      <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+      <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0">
         <items>
-            <VBox prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <Label fx:id="testText" text="Test" />
-               </children>
-            </VBox>
             <VBox>
                <children>
-                  <TextField text="userInput" />
+                  <Label fx:id="testText" text="Choose A Difficutly &amp; Load A Test" wrapText="true" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" spacing="10.0">
+               <children>
+                  <TextField fx:id="userInput" promptText="Type Here!" />
                   <Label text="Difficulty" />
-                  <Slider fx:id="difficultySlider" max="3" min="1" value="1" blockIncrement="1" majorTickUnit="1" minorTickCount="0" showTickMarks="true" snapToTicks="true" showTickLabels="true"/>
-                  <Button fx:id="loadTest" mnemonicParsing="false" onAction="#loadTest" text="Load Test" />
+                  <Slider fx:id="difficultySlider" blockIncrement="1" majorTickUnit="1" max="3" min="1" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1" />
+                  <Button mnemonicParsing="false" onAction="#loadTest" text="Load Test" />
                </children>
             </VBox>
         </items>

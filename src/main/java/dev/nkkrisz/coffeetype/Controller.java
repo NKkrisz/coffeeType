@@ -1,12 +1,13 @@
 package dev.nkkrisz.coffeetype;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.stage.Stage;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -18,20 +19,53 @@ public class Controller {
     private Slider difficultySlider;
 
     @FXML
-    private Button loadTest;
+    private TextField userInput;
+
+    private String test;
+    private int nextChar = 0;
+    private int mistakes = 0;
 
     @FXML
-    protected void loadTest() {
-        System.out.println((int) difficultySlider.getValue());
-        testText.setText("a");
+    private void loadTest() {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("tests.txt")))){
             for (int i = 0; i < (int) difficultySlider.getValue() - 1; i++) {
                 reader.readLine();
             }
-            testText.setText(reader.readLine());
+            test = reader.readLine();
+            testText.setText(test);
+
+            userInput.clear();
+            userInput.setEditable(true);
+            nextChar = 0;
+            mistakes = 0;
 
         } catch (IOException e){
-            System.out.println(e);
+            testText.setText(String.valueOf(e));
         }
+    }
+
+    @FXML
+    private void initialize() {
+        loadTest();
+
+        userInput.setOnKeyTyped(event -> {
+            char typedChar = event.getCharacter().charAt(0); // Get the typed character
+
+            if ((Character.toString(typedChar).matches("[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ ]")
+                    && typedChar == (test.charAt(nextChar))) ||
+                    (typedChar == ' ' && nextChar < test.length() && test.charAt(nextChar) == ' ')) {
+                nextChar++;
+                if (nextChar < test.length()) {
+                    System.out.println("next char: " + test.charAt(nextChar));
+                } else {
+                    testText.setText("Test completed with " + mistakes + " mistakes.");
+                    userInput.setEditable(false);
+                }
+            } else {
+                mistakes++;
+                System.out.println(mistakes);
+                System.out.println("next char: " + test.charAt(nextChar));
+            }
+        });
     }
 }
