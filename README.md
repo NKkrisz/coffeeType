@@ -15,3 +15,4 @@
 - Version Control: Git
 - Repository Hosting: GitHub
 - IDE: IntelliJ Idea Community Edition
+- Other: Regex (Checking user input)
