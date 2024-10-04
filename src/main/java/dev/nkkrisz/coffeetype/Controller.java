@@ -52,6 +52,7 @@ public class Controller {
             if (Character.toString(typedChar).matches("[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ.,;:?!'\"()\\-\\s]")
                     && typedChar == test.charAt(nextChar)) {
                 nextChar++;
+                testText.setText(test.substring(nextChar, test.length()));
                 if (nextChar < test.length()) {
                     System.out.println("next char: " + test.charAt(nextChar));
                 } else {
