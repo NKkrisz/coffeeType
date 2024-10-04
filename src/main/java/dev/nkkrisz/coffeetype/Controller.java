@@ -4,9 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.stage.Stage;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -27,7 +24,7 @@ public class Controller {
 
     @FXML
     private void loadTest() {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("tests.txt")))){
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("tests.txt")))) {
             for (int i = 0; i < (int) difficultySlider.getValue() - 1; i++) {
                 reader.readLine();
             }
@@ -39,7 +36,7 @@ public class Controller {
             nextChar = 0;
             mistakes = 0;
 
-        } catch (IOException e){
+        } catch (IOException e) {
             testText.setText(String.valueOf(e));
         }
     }
@@ -51,9 +48,9 @@ public class Controller {
         userInput.setOnKeyTyped(event -> {
             char typedChar = event.getCharacter().charAt(0); // Get the typed character
 
-            if ((Character.toString(typedChar).matches("[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ ]")
-                    && typedChar == (test.charAt(nextChar))) ||
-                    (typedChar == ' ' && nextChar < test.length() && test.charAt(nextChar) == ' ')) {
+            // Updated regex to include letters, accented letters, and punctuation characters
+            if (Character.toString(typedChar).matches("[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ.,;:?!'\"()\\-\\s]")
+                    && typedChar == test.charAt(nextChar)) {
                 nextChar++;
                 if (nextChar < test.length()) {
                     System.out.println("next char: " + test.charAt(nextChar));
