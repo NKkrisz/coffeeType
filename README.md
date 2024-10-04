@@ -4,10 +4,13 @@
 - Teach blind typing
 
 ## Using The Program
-- Choose a difficulty and load a test
+- Choose a difficulty and load a test (by default it loads the easiest test)
 - Start typing
-- If too many mistakes are made, a warning will popup
-- Once the test is complete a popup will show a message with details about the test
+- Correctly typed characters will disappear to show progress/the next character that needs to be typed
+- If too many mistakes are made, a warning will popup and the test will stop
+- Once the test is complete a message will appear with how many mistakes were made and a words/minute counter (WPM)
+- If the test is stopped/completed, user input for the test will be disabled
+- Repeat
 
 ## Tech used
 - Programming language: Java
