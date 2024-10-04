@@ -1,6 +1,7 @@
 package dev.nkkrisz.coffeetype;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
@@ -22,7 +23,7 @@ public class Controller {
     private String test;
     private int nextChar = 0;
     private int mistakes = 0;
-    private long startTime = 0;  // Variable to store the start time in milliseconds
+    private long startTime = 0;
 
     @FXML
     private void loadTest() {
@@ -32,12 +33,10 @@ public class Controller {
             }
             test = reader.readLine();
             testText.setText(test);
-
             userInput.clear();
             userInput.setEditable(true);
             nextChar = 0;
             mistakes = 0;
-
         } catch (IOException e) {
             testText.setText(String.valueOf(e));
         }
@@ -51,35 +50,49 @@ public class Controller {
         return words.length;
     }
 
+    private void showMistakeAlert() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Test Stopped");
+        alert.setHeaderText(null);
+        alert.setContentText("You have made 3 mistakes. The test is now stopped.");
+        alert.showAndWait();
+        testText.setText("Choose A Difficulty And Load The Test!");
+        userInput.clear();
+    }
+
     @FXML
     private void initialize() {
         loadTest();
 
         userInput.setOnKeyTyped(event -> {
-            if (nextChar == 1) {
+            String typedText = event.getCharacter();
+
+            if (typedText.equals("\b")) {
+                return;
+            }
+
+            if (nextChar == 0) {
                 startTime = System.currentTimeMillis();
             }
 
-            char typedChar = event.getCharacter().charAt(0); // Get the typed character
-
-            // Check if the typed character matches the current character in the test string
-            if (Character.toString(typedChar).matches("[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ.,;:?!'\"()\\-\\s]")
-                    && typedChar == test.charAt(nextChar)) {
+            if (nextChar < test.length() && typedText.charAt(0) == test.charAt(nextChar)) {
                 nextChar++;
-                testText.setText(test.substring(nextChar, test.length()));
+                testText.setText(test.substring(nextChar));
 
-                if (nextChar == test.length()) {  // Test is completed
+                if (nextChar == test.length()) {
                     long endTime = System.currentTimeMillis();
-                    double timeTaken = (endTime - startTime) / 60000.0; // Convert milliseconds to minutes
-
-                    int wordCount = countWords(test); // Count words in the test
-                    double wpm = wordCount / timeTaken; // Calculate WPM
-
-                    testText.setText("Test completed with " + mistakes + " mistakes. WPM: " + String.format("%.2f", wpm));
+                    double timeTaken = (endTime - startTime) / 60000.0;
+                    int wordCount = countWords(test);
+                    double wpm = wordCount / timeTaken;
+                    testText.setText("Test completed with " + mistakes + " mistake(s). WPM: " + String.format("%.2f", wpm));
                     userInput.setEditable(false);
                 }
             } else {
                 mistakes++;
+                if (mistakes == 3) {
+                    showMistakeAlert();
+                    userInput.setEditable(false);
+                }
             }
         });
     }
